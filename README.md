@@ -36,12 +36,10 @@ GitHub Action that sends a notification to [Hófvarpnir](https://github.com/andr
 | `title`   | Yes     | -       | Notification title. |
 | `message` | No      | `""`    | Notification body (sent as `body` in the API). |
 | `status`  | No      | `started` | One of: `started`, `success`, `failed`. |
-| `app_url` | No      | `https://hofvarpnir.weslleyandrade.dev.br` | Base URL of your Hófvarpnir instance. Override with a secret (e.g. `NOTIFY_APP_URL`) if you use a different URL. |
 
 ## Secrets
 
-- **`API_KEY`** (or `NOTIFY_API_KEY`): Your Hófvarpnir API key (generate in your instance under Settings).
-- **`NOTIFY_APP_URL`** (optional): Set if your instance is not at the default URL; pass as `app_url` in `with:`.
+- **`API_KEY`** (or `NOTIFY_API_KEY`): Your Hófvarpnir API key.
 
 ## License
 
