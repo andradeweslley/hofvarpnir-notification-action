@@ -1,0 +1,46 @@
+name: "Hófvarpnir Notification"
+description: "Send a notification to Hófvarpnir via POST /api/notify"
+inputs:
+  api_key:
+    description: "Bearer token for /api/notify (use secrets.API_KEY or similar)"
+    required: true
+  title:
+    description: "Notification title"
+    required: true
+  message:
+    description: "Notification body (sent as body in JSON)"
+    required: false
+    default: ""
+  status:
+    description: "One of started, success, failed"
+    required: false
+    default: "started"
+runs:
+  using: "composite"
+  steps:
+    - name: Notify Hófvarpnir
+      shell: bash
+      env:
+        API_KEY: ${{ inputs.api_key }}
+        TITLE: ${{ inputs.title }}
+        MESSAGE: ${{ inputs.message }}
+        STATUS: ${{ inputs.status }}
+        BASE_URL: "https://hofvarpnir.weslleyandrade.dev.br"
+      run: |
+        set -e
+        # Build JSON body safely with jq (available on GitHub-hosted runners)
+        BODY=$(jq -n \
+          --arg title "$TITLE" \
+          --arg body "$MESSAGE" \
+          --arg status "$STATUS" \
+          '{title: $title, body: $body, status: $status}')
+        RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "${BASE_URL}/api/notify" \
+          -H "Authorization: Bearer ${API_KEY}" \
+          -H "Content-Type: application/json" \
+          -d "$BODY") || true
+        HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+        if [[ ! "$HTTP_CODE" =~ ^2[0-9][0-9]$ ]]; then
+          echo "Hófvarpnir notify failed with HTTP $HTTP_CODE"
+          echo "$RESPONSE" | head -n -1
+          exit 1
+        fi
