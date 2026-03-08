@@ -1,4 +1,4 @@
-name: "Hófvarpnir Notification"
+name: "Gná - Notification Action for GitHub Actions Workflow"
 description: "Send a notification to Hófvarpnir via POST /api/notify"
 inputs:
   api_key:
@@ -18,7 +18,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Notify Hófvarpnir
+    - name: Notify
       shell: bash
       env:
         API_KEY: ${{ inputs.api_key }}
@@ -40,7 +40,7 @@ runs:
           -d "$BODY") || true
         HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
         if [[ ! "$HTTP_CODE" =~ ^2[0-9][0-9]$ ]]; then
-          echo "Hófvarpnir notify failed with HTTP $HTTP_CODE"
+          echo "Notify failed with HTTP $HTTP_CODE"
           echo "$RESPONSE" | head -n -1
           exit 1
         fi

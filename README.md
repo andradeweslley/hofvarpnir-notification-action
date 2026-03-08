@@ -1,4 +1,4 @@
-# Hófvarpnir Notification Action
+# Gná - Notification Action for GitHub Actions Workflow
 
 GitHub Action that sends a notification to [Hófvarpnir](https://github.com/andradeweslley/notify-system) via `POST /api/notify`. Use it in any workflow to notify your Hófvarpnir instance (e.g. deploy started, success, or failed).
 
@@ -8,7 +8,7 @@ GitHub Action that sends a notification to [Hófvarpnir](https://github.com/andr
 
 ```yaml
 - name: Notify deploy started
-  uses: andradeweslley/hofvarpnir-notification-action@v1.0.0
+  uses: andradeweslley/gna@v1.0.0
   with:
     api_key: ${{ secrets.API_KEY }}
     title: "Deploy started"
@@ -20,7 +20,7 @@ GitHub Action that sends a notification to [Hófvarpnir](https://github.com/andr
 ```yaml
 - name: Notify deploy result
   if: always()
-  uses: andradeweslley/hofvarpnir-notification-action@v1.0.0
+  uses: andradeweslley/gna@v1.0.0
   with:
     api_key: ${{ secrets.API_KEY }}
     title: "Deploy finished"
